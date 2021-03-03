@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
-class DashboardDriver extends AbstractWpConfigDriver
+class DashboardDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
      */
     public function boot(): void
     {
-        if ($metaboxes = $this->wpConfig()->config('remove_dashboard_meta_box', [])) {
+        if ($metaboxes = $this->wpCleaner()->config('remove_dashboard_meta_box', [])) {
             add_action(
                 'admin_init',
                 function () use ($metaboxes) {
@@ -26,7 +26,7 @@ class DashboardDriver extends AbstractWpConfigDriver
             );
         }
 
-        if ($panels = $this->wpConfig()->config('remove_dashboard_panel', [])) {
+        if ($panels = $this->wpCleaner()->config('remove_dashboard_panel', [])) {
             add_action(
                 'admin_init',
                 function () use ($panels) {

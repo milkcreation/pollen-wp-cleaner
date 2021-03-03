@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
-class TaxonomyDriver extends AbstractWpConfigDriver
+class TaxonomyDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
      */
     public function boot(): void
     {
-        if ($this->wpConfig()->config('disable_post_category') === true) {
+        if ($this->wpCleaner()->config('disable_post_category') === true) {
             add_action(
                 'init',
                 function () {
@@ -25,7 +25,7 @@ class TaxonomyDriver extends AbstractWpConfigDriver
             );
         }
 
-        if ($this->wpConfig()->config('disable_post_tag', false) === true) {
+        if ($this->wpCleaner()->config('disable_post_tag', false) === true) {
             add_action(
                 'init',
                 function () {
@@ -44,7 +44,7 @@ class TaxonomyDriver extends AbstractWpConfigDriver
             function () {
                 global $wp_taxonomies;
 
-                $configKeys = $this->wpConfig()->config()->keys();
+                $configKeys = $this->wpCleaner()->config()->keys();
 
                 foreach ($configKeys as $key) {
                     if (!preg_match('/^unregister_taxonomy_for_(.*)/', $key, $match)) {
@@ -56,7 +56,7 @@ class TaxonomyDriver extends AbstractWpConfigDriver
                         continue;
                     }
 
-                    foreach ($this->wpConfig()->config($key, []) as $taxonomy) {
+                    foreach ($this->wpCleaner()->config($key, []) as $taxonomy) {
                         if (isset($wp_taxonomies[$taxonomy])) {
                             $wp_taxonomies[$taxonomy]->show_in_nav_menus = false;
                         }
