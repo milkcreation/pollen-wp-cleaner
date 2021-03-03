@@ -1,14 +1,14 @@
 {
-  "name": "pollen-solutions/wp-config",
-  "description": "Wordpress Configurator Component",
-  "homepage": "https://www.presstify.com/pollen-solutions/wp-config",
+  "name": "pollen-solutions/wp-cleaner",
+  "description": "Wordpress Cleaner Component",
+  "homepage": "https://www.presstify.com/pollen-solutions/wp-cleaner/",
   "keywords": [
     "presstify",
     "plugins",
     "wordpress",
-    "configuration"
+    "cleaner"
   ],
-  "time": "2020-01-04",
+  "time": "2020-03-03",
   "license": "MIT",
   "authors": [
     {
@@ -28,12 +28,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Pollen\\WpConfig\\": "src"
+      "Pollen\\WpCleaner\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Pollen\\WpConfig\\Test\\": "tests"
+      "Pollen\\WpCleaner\\Test\\": "tests"
     }
   },
   "minimum-stability": "dev",

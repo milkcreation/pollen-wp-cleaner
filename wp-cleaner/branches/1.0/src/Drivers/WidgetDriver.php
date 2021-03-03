@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
-class WidgetDriver extends AbstractWpConfigDriver
+class WidgetDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
      */
     public function boot(): void
     {
-        if ($widgets = $this->wpConfig()->config('unregister_widget', [])) {
+        if ($widgets = $this->wpCleaner()->config('unregister_widget', [])) {
             add_action(
                 'widget_init',
                 function () use ($widgets) {

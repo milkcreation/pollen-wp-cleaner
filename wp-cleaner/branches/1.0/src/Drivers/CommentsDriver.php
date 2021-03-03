@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
-class CommentsDriver extends AbstractWpConfigDriver
+class CommentsDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
      */
     public function boot(): void
     {
-        if ($this->wpConfig()->config('disable_comment') === true) {
+        if ($this->wpCleaner()->config('disable_comment') === true) {
             add_action(
                 'admin_menu',
                 function () {

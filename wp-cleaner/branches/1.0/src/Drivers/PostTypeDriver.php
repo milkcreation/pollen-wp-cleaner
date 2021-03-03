@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
 use WP_Post_Type;
 
-class PostTypeDriver extends AbstractWpConfigDriver
+class PostTypeDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
@@ -16,7 +16,7 @@ class PostTypeDriver extends AbstractWpConfigDriver
         add_action(
             'init',
             function () {
-                $configKeys = $this->wpConfig()->config()->keys();
+                $configKeys = $this->wpCleaner()->config()->keys();
 
                 foreach ($configKeys as $key) {
                     if (!preg_match('/^remove_support_(.*)/', $key, $match)) {
@@ -29,7 +29,7 @@ class PostTypeDriver extends AbstractWpConfigDriver
                         continue;
                     }
 
-                    foreach ($this->wpConfig()->config($key, []) as $support) {
+                    foreach ($this->wpCleaner()->config($key, []) as $support) {
                         remove_post_type_support($post_type, $support);
                     }
                 }
@@ -40,7 +40,7 @@ class PostTypeDriver extends AbstractWpConfigDriver
         add_action(
             'add_meta_boxes',
             function () {
-                $configKeys = $this->wpConfig()->config()->keys();
+                $configKeys = $this->wpCleaner()->config()->keys();
 
                 foreach ($configKeys as $key) {
                     if (!preg_match('/^remove_meta_box_(.*)/', $key, $match)) {
@@ -53,7 +53,7 @@ class PostTypeDriver extends AbstractWpConfigDriver
                         continue;
                     }
 
-                    foreach ($this->wpConfig()->config($key, []) as $metabox => $context) {
+                    foreach ($this->wpCleaner()->config($key, []) as $metabox => $context) {
                         if (is_numeric($metabox)) {
                             $metabox = $context;
                             $context = false;
@@ -82,7 +82,7 @@ class PostTypeDriver extends AbstractWpConfigDriver
             999999
         );
 
-        if ($this->wpConfig()->config('disable_post') === true) {
+        if ($this->wpCleaner()->config('disable_post') === true) {
             add_action(
                 'admin_init',
                 function () {
