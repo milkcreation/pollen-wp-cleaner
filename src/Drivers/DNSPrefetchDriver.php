@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
-class DNSPrefetchDriver extends AbstractWpConfigDriver
+class DNSPrefetchDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
      */
     public function boot(): void
     {
-        if ($this->wpConfig()->config('disable_dns_prefetch') === true) {
+        if ($this->wpCleaner()->config('disable_dns_prefetch') === true) {
             add_action(
                 'wp',
                 function () {

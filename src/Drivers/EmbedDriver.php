@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
-class EmbedDriver extends AbstractWpConfigDriver
+class EmbedDriver extends AbstractWpCleanerDriver
 {
     /**
      * Liste des options de désactivation des éléments de l'embed.
@@ -27,7 +27,7 @@ class EmbedDriver extends AbstractWpConfigDriver
      */
     public function boot(): void
     {
-        if ($disable_embed = $this->wpConfig()->config('disable_embed', [])) {
+        if ($disable_embed = $this->wpCleaner()->config('disable_embed', [])) {
             $this->attributes = ($disable_embed === true) ? $this->attributes : array_merge(
                 $this->attributes,
                 $disable_embed

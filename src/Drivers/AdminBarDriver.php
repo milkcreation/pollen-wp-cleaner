@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
 use WP_Admin_Bar;
 
-class AdminBarDriver extends AbstractWpConfigDriver
+class AdminBarDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
      */
     public function boot(): void
     {
-        if ($nodes = $this->wpConfig()->config('remove_admin_bar_menu', [])) {
+        if ($nodes = $this->wpCleaner()->config('remove_admin_bar_menu', [])) {
             add_action(
                 'wp_before_admin_bar_render',
                 function () use ($nodes) {
@@ -26,7 +26,7 @@ class AdminBarDriver extends AbstractWpConfigDriver
             );
         }
 
-        if ($logo = $this->wpConfig()->config('admin_bar_menu_logo', [])) {
+        if ($logo = $this->wpCleaner()->config('admin_bar_menu_logo', [])) {
             add_action(
                 'admin_bar_menu',
                 function (WP_Admin_Bar $wp_admin_bar) use ($logo) {

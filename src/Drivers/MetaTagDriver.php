@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
-class MetaTagDriver extends AbstractWpConfigDriver
+class MetaTagDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
      */
     public function boot(): void
     {
-        if ($this->wpConfig()->config('disable_meta_tag') === true) {
+        if ($this->wpCleaner()->config('disable_meta_tag') === true) {
             add_action(
                 'init',
                 function () {
