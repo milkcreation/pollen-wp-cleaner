@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner;
 
+use Pollen\Container\BaseServiceProvider;
 use Pollen\WpCleaner\Drivers\AdminBarDriver;
 use Pollen\WpCleaner\Drivers\AdminFooterDriver;
 use Pollen\WpCleaner\Drivers\AdminMenuDriver;
@@ -17,9 +18,8 @@ use Pollen\WpCleaner\Drivers\PostTypeDriver;
 use Pollen\WpCleaner\Drivers\RestApiDriver;
 use Pollen\WpCleaner\Drivers\TaxonomyDriver;
 use Pollen\WpCleaner\Drivers\WidgetDriver;
-use tiFy\Container\ServiceProvider;
 
-class WpCleanerServiceProvider extends ServiceProvider
+class WpCleanerServiceProvider extends BaseServiceProvider
 {
     /**
      * Liste des noms de qualification des services fournis.
@@ -33,20 +33,10 @@ class WpCleanerServiceProvider extends ServiceProvider
     /**
      * @inheritdoc
      */
-    public function boot(): void
-    {
-        events()->listen('wp.booted', function () {
-            $this->getContainer()->get(WpCleanerInterface::class)->boot();
-        });
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function register(): void
     {
         $this->getContainer()->share(WpCleanerInterface::class, function() {
-            return new WpCleaner(config('wp-config', []), $this->getContainer());
+            return new WpCleaner([], $this->getContainer());
         });
     }
 
