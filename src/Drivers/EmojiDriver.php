@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
-class EmojiDriver extends AbstractWpConfigDriver
+class EmojiDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
      */
     public function boot(): void
     {
-        if ($this->wpConfig()->config('disable_emoji') === true) {
+        if ($this->wpCleaner()->config('disable_emoji') === true) {
             add_filter('emoji_svg_url', '__return_false');
 
             add_action(

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
-class AdminFooterDriver extends AbstractWpConfigDriver
+class AdminFooterDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
      */
     public function boot(): void
     {
-        if ($footer_text = $this->wpConfig()->config('admin_footer_text', '')) {
+        if ($footer_text = $this->wpCleaner()->config('admin_footer_text', '')) {
             add_filter(
                 'admin_footer_text',
                 function (string $text = '') use ($footer_text) {

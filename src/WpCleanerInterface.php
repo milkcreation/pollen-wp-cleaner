@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace Pollen\WpConfig\Contracts;
+declare(strict_types=1);
+
+namespace Pollen\WpCleaner;
 
 use tiFy\Contracts\Filesystem\LocalFilesystem;
 use tiFy\Contracts\Support\ParamsBag;
@@ -9,21 +11,21 @@ use tiFy\Contracts\Support\ParamsBag;
  * @mixin \tiFy\Support\Concerns\BootableTrait
  * @mixin \tiFy\Support\Concerns\ContainerAwareTrait
  */
-interface WpConfigContract
+interface WpCleanerInterface
 {
     /**
      * Récupération de l'instance.
      *
      * @return static
      */
-    public static function instance(): WpConfigContract;
+    public static function instance(): WpCleanerInterface;
 
     /**
      * Chargement.
      *
      * @return static
      */
-    public function boot(): WpConfigContract;
+    public function boot(): WpCleanerInterface;
 
     /**
      * Récupération de paramètre|Définition de paramètres|Instance du gestionnaire de paramètre.
@@ -51,5 +53,5 @@ interface WpConfigContract
      *
      * @return static
      */
-    public function setConfig(array $attrs): WpConfigContract;
+    public function setConfig(array $attrs): WpCleanerInterface;
 }

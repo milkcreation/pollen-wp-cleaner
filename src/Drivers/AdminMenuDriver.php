@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
-class AdminMenuDriver extends AbstractWpConfigDriver
+class AdminMenuDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
      */
     public function boot(): void
     {
-        if ($removed_menus = $this->wpConfig()->config('remove_menu', [])) {
+        if ($removed_menus = $this->wpCleaner()->config('remove_menu', [])) {
             add_action(
                 'admin_menu',
                 function () use ($removed_menus) {

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpConfig\Drivers;
+namespace Pollen\WpCleaner\Drivers;
 
-class RestApiDriver extends AbstractWpConfigDriver
+class RestApiDriver extends AbstractWpCleanerDriver
 {
     /**
      * @inheritDoc
      */
     public function boot(): void
     {
-        if ($this->wpConfig()->config('disable_rest_api')) {
+        if ($this->wpCleaner()->config('disable_rest_api')) {
             add_action(
                 'init',
                 function () {

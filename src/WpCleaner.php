@@ -1,23 +1,23 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Pollen\WpConfig;
+namespace Pollen\WpCleaner;
 
 use RuntimeException;
-use Pollen\WpConfig\Contracts\WpConfigContract;
-use Pollen\WpConfig\Drivers\AdminBarDriver;
-use Pollen\WpConfig\Drivers\AdminFooterDriver;
-use Pollen\WpConfig\Drivers\AdminMenuDriver;
-use Pollen\WpConfig\Drivers\CommentsDriver;
-use Pollen\WpConfig\Drivers\DashboardDriver;
-use Pollen\WpConfig\Drivers\DNSPrefetchDriver;
-use Pollen\WpConfig\Drivers\EmbedDriver;
-use Pollen\WpConfig\Drivers\EmojiDriver;
-use Pollen\WpConfig\Drivers\MetaTagDriver;
-use Pollen\WpConfig\Drivers\PostTypeDriver;
-use Pollen\WpConfig\Drivers\RestApiDriver;
-use Pollen\WpConfig\Drivers\TaxonomyDriver;
-use Pollen\WpConfig\Drivers\WidgetDriver;
+use Pollen\WpCleaner\Drivers\AdminBarDriver;
+use Pollen\WpCleaner\Drivers\AdminFooterDriver;
+use Pollen\WpCleaner\Drivers\AdminMenuDriver;
+use Pollen\WpCleaner\Drivers\CommentsDriver;
+use Pollen\WpCleaner\Drivers\DashboardDriver;
+use Pollen\WpCleaner\Drivers\DNSPrefetchDriver;
+use Pollen\WpCleaner\Drivers\EmbedDriver;
+use Pollen\WpCleaner\Drivers\EmojiDriver;
+use Pollen\WpCleaner\Drivers\MetaTagDriver;
+use Pollen\WpCleaner\Drivers\PostTypeDriver;
+use Pollen\WpCleaner\Drivers\RestApiDriver;
+use Pollen\WpCleaner\Drivers\TaxonomyDriver;
+use Pollen\WpCleaner\Drivers\WidgetDriver;
 use Psr\Container\ContainerInterface as Container;
 use tiFy\Contracts\Filesystem\LocalFilesystem;
 use tiFy\Support\Concerns\BootableTrait;
@@ -25,7 +25,7 @@ use tiFy\Support\Concerns\ContainerAwareTrait;
 use tiFy\Support\ParamsBag;
 use tiFy\Support\Proxy\Storage;
 
-class WpConfig implements WpConfigContract
+class WpCleaner implements WpCleanerInterface
 {
     use BootableTrait;
     use ContainerAwareTrait;
@@ -90,7 +90,7 @@ class WpConfig implements WpConfigContract
     /**
      * @inheritDoc
      */
-    public static function instance(): WpConfigContract
+    public static function instance(): WpCleanerInterface
     {
         if (self::$instance instanceof self) {
             return self::$instance;
@@ -101,12 +101,12 @@ class WpConfig implements WpConfigContract
     /**
      * @inheritDoc
      */
-    public function boot(): WpConfigContract
+    public function boot(): WpCleanerInterface
     {
         if (!$this->isBooted()) {
             events()->trigger('wp-config.booting', [$this]);
 
-            foreach($this->drivers as $driver) {
+            foreach ($this->drivers as $driver) {
                 $driver = $this->containerHas($driver) ? $this->containerGet($driver) : new $driver($this);
                 $driver->boot();
             }
@@ -129,11 +129,11 @@ class WpConfig implements WpConfigContract
 
         if (is_string($key)) {
             return $this->configBag->get($key, $default);
-        } elseif (is_array($key)) {
-            return $this->configBag->set($key);
-        } else {
-            return $this->configBag;
         }
+        if (is_array($key)) {
+            return $this->configBag->set($key);
+        }
+        return $this->configBag;
     }
 
     /**
@@ -151,7 +151,7 @@ class WpConfig implements WpConfigContract
     /**
      * @inheritDoc
      */
-    public function setConfig(array $attrs): WpConfigContract
+    public function setConfig(array $attrs): WpCleanerInterface
     {
         $this->config($attrs);
 
