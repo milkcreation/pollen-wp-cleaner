@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner;
 
-use Exception;
+use Psr\Container\ContainerInterface as Container;
+use RuntimeException;
 
 trait WpCleanerProxy
 {
@@ -17,17 +18,24 @@ trait WpCleanerProxy
     /**
      * Instance du gestionnaire de nettoyage Wordpress.
      *
-     * @return WpCleanerInterface|null
+     * @return WpCleanerInterface
      */
-    public function wpCleaner(): ?WpCleanerInterface
+    public function wpCleaner(): WpCleanerInterface
     {
-        if (is_null($this->wpCleaner)) {
-            try {
-                $this->wpCleaner = WpCleaner::instance();
-            } catch (Exception $e) {
-                $this->wpCleaner;
+        if ($this->wpCleaner === null) {
+            $container = method_exists($this, 'getContainer') ? $this->getContainer() : null;
+
+            if ($container instanceof Container && $container->has(WpCleanerInterface::class)) {
+                $this->wpCleaner = $container->get(WpCleanerInterface::class);
+            } else {
+                try {
+                    $this->wpCleaner = WpCleaner::getInstance();
+                } catch(RuntimeException $e) {
+                    $this->wpCleaner = new WpCleaner();
+                }
             }
         }
+
         return $this->wpCleaner;
     }
 

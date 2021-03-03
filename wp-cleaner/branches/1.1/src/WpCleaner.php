@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner;
 
-use RuntimeException;
+use Pollen\Support\Filesystem;
 use Pollen\WpCleaner\Drivers\AdminBarDriver;
 use Pollen\WpCleaner\Drivers\AdminFooterDriver;
 use Pollen\WpCleaner\Drivers\AdminMenuDriver;
@@ -19,34 +19,28 @@ use Pollen\WpCleaner\Drivers\RestApiDriver;
 use Pollen\WpCleaner\Drivers\TaxonomyDriver;
 use Pollen\WpCleaner\Drivers\WidgetDriver;
 use Psr\Container\ContainerInterface as Container;
-use tiFy\Contracts\Filesystem\LocalFilesystem;
-use tiFy\Support\Concerns\BootableTrait;
-use tiFy\Support\Concerns\ContainerAwareTrait;
-use tiFy\Support\ParamsBag;
-use tiFy\Support\Proxy\Storage;
+use Pollen\Support\Concerns\BootableTrait;
+use Pollen\Support\Concerns\ConfigBagAwareTrait;
+use Pollen\Support\Proxy\ContainerProxy;
+use RuntimeException;
 
 class WpCleaner implements WpCleanerInterface
 {
     use BootableTrait;
-    use ContainerAwareTrait;
+    use ConfigBagAwareTrait;
+    use ContainerProxy;
 
     /**
-     * Instance de la classe.
+     * Instance principale.
      * @var static|null
      */
     private static $instance;
 
     /**
-     * Instance du gestionnaire de configuration.
-     * @var ParamsBag
+     * Chemin vers le répertoire des ressources.
+     * @var string|null
      */
-    private $configBag;
-
-    /**
-     * Instance du gestionnaire des ressources
-     * @var LocalFilesystem|null
-     */
-    private $resources;
+    protected $resourcesBaseDir;
 
     /**
      * Liste des pilotes.
@@ -78,8 +72,12 @@ class WpCleaner implements WpCleanerInterface
     {
         $this->setConfig($config);
 
-        if (!is_null($container)) {
+        if ($container !== null) {
             $this->setContainer($container);
+        }
+
+        if ($this->config('boot_enabled', true)) {
+            $this->boot();
         }
 
         if (!self::$instance instanceof static) {
@@ -88,14 +86,16 @@ class WpCleaner implements WpCleanerInterface
     }
 
     /**
-     * @inheritDoc
+     * Récupération de l'instance principale.
+     *
+     * @return static
      */
-    public static function instance(): WpCleanerInterface
+    public static function getInstance(): WpCleanerInterface
     {
         if (self::$instance instanceof self) {
             return self::$instance;
         }
-        throw new RuntimeException(sprintf('Unavailable %s instance', __CLASS__));
+        throw new RuntimeException(sprintf('Unavailable [%s] instance', __CLASS__));
     }
 
     /**
@@ -104,7 +104,7 @@ class WpCleaner implements WpCleanerInterface
     public function boot(): WpCleanerInterface
     {
         if (!$this->isBooted()) {
-            events()->trigger('wp-config.booting', [$this]);
+            //events()->trigger('wp-config.booting', [$this]);
 
             foreach ($this->drivers as $driver) {
                 $driver = $this->containerHas($driver) ? $this->containerGet($driver) : new $driver($this);
@@ -113,7 +113,7 @@ class WpCleaner implements WpCleanerInterface
 
             $this->setBooted();
 
-            events()->trigger('wp-config.booted', [$this]);
+            //events()->trigger('wp-config.booted', [$this]);
         }
         return $this;
     }
@@ -121,39 +121,25 @@ class WpCleaner implements WpCleanerInterface
     /**
      * @inheritDoc
      */
-    public function config($key = null, $default = null)
+    public function resources(?string $path = null): string
     {
-        if (!isset($this->configBag) || is_null($this->configBag)) {
-            $this->configBag = new ParamsBag();
+        if ($this->resourcesBaseDir === null) {
+            $this->resourcesBaseDir = Filesystem::normalizePath(realpath(dirname(__DIR__) . '/resources/'));
+
+            if (!file_exists($this->resourcesBaseDir)) {
+                throw new RuntimeException('Partial ressources directory unreachable');
+            }
         }
 
-        if (is_string($key)) {
-            return $this->configBag->get($key, $default);
-        }
-        if (is_array($key)) {
-            return $this->configBag->set($key);
-        }
-        return $this->configBag;
+        return is_null($path) ? $this->resourcesBaseDir : $this->resourcesBaseDir . Filesystem::normalizePath($path);
     }
 
     /**
      * @inheritDoc
      */
-    public function resources(?string $path = null)
+    public function setResourcesBaseDir(string $resourceBaseDir): WpCleanerInterface
     {
-        if (!isset($this->resources) || is_null($this->resources)) {
-            $this->resources = Storage::local(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources');
-        }
-
-        return is_null($path) ? $this->resources : $this->resources->path($path);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setConfig(array $attrs): WpCleanerInterface
-    {
-        $this->config($attrs);
+        $this->resourcesBaseDir = Filesystem::normalizePath($resourceBaseDir);
 
         return $this;
     }

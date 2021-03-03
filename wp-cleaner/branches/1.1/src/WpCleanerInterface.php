@@ -4,22 +4,15 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner;
 
-use tiFy\Contracts\Filesystem\LocalFilesystem;
-use tiFy\Contracts\Support\ParamsBag;
+use Pollen\Support\Concerns\BootableTraitInterface;
+use Pollen\Support\Concerns\ConfigBagAwareTraitInterface;
+use Pollen\Support\Proxy\ContainerProxyInterface;
 
-/**
- * @mixin \tiFy\Support\Concerns\BootableTrait
- * @mixin \tiFy\Support\Concerns\ContainerAwareTrait
- */
-interface WpCleanerInterface
+interface WpCleanerInterface extends
+    BootableTraitInterface,
+    ConfigBagAwareTraitInterface,
+    ContainerProxyInterface
 {
-    /**
-     * Récupération de l'instance.
-     *
-     * @return static
-     */
-    public static function instance(): WpCleanerInterface;
-
     /**
      * Chargement.
      *
@@ -28,30 +21,20 @@ interface WpCleanerInterface
     public function boot(): WpCleanerInterface;
 
     /**
-     * Récupération de paramètre|Définition de paramètres|Instance du gestionnaire de paramètre.
-     *
-     * @param string|array|null $key Clé d'indice du paramètre à récupérer|Liste des paramètre à définir.
-     * @param mixed $default Valeur de retour par défaut lorsque la clé d'indice est une chaine de caractère.
-     *
-     * @return ParamsBag|int|string|array|object
-     */
-    public function config($key = null, $default = null);
-
-    /**
      * Chemin absolu vers une ressources (fichier|répertoire).
      *
      * @param string|null $path Chemin relatif vers la ressource.
      *
-     * @return LocalFilesystem|string|null
+     * @return string
      */
-    public function resources(?string $path = null);
+    public function resources(?string $path = null): string;
 
     /**
-     * Définition des paramètres de configuration.
+     * Définition du chemin absolu vers le répertoire des ressources.
      *
-     * @param array $attrs Liste des attributs de configuration.
+     * @var string $resourceBaseDir
      *
      * @return static
      */
-    public function setConfig(array $attrs): WpCleanerInterface;
+    public function setResourcesBaseDir(string $resourceBaseDir): WpCleanerInterface;
 }

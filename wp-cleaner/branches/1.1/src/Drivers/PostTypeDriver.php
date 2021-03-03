@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner\Drivers;
 
+use Pollen\Support\Proxy\HttpRequestProxy;
 use WP_Post_Type;
 
 class PostTypeDriver extends AbstractWpCleanerDriver
 {
+    use HttpRequestProxy;
+
     /**
      * @inheritDoc
      */
@@ -125,7 +128,7 @@ class PostTypeDriver extends AbstractWpCleanerDriver
 
                     switch ($pagenow) {
                         case 'edit.php':
-                            if (request()->query('post_type') === 'post') {
+                            if ($this->httpRequest()->query->get('post_type') === 'post') {
                                 wp_safe_redirect(get_admin_url(), 301);
                                 exit;
                             }
@@ -133,9 +136,9 @@ class PostTypeDriver extends AbstractWpCleanerDriver
                         case 'edit-tags.php':
                         case 'post-new.php':
                             if (
-                                !array_key_exists('post_type', request()->query()) &&
-                                !array_key_exists('taxonomy', request()->query()) &&
-                                !request()->post()
+                                !array_key_exists('post_type', $this->httpRequest()->query->all()) &&
+                                !array_key_exists('taxonomy', $this->httpRequest()->query->all()) &&
+                                !$this->httpRequest()->request->all()
                             ) {
                                 wp_safe_redirect(get_admin_url(), 301);
                                 exit;
@@ -191,7 +194,7 @@ class PostTypeDriver extends AbstractWpCleanerDriver
 
             global $pagenow;
 
-            if (!is_admin() && ($pagenow != 'wp-login.php')) {
+            if (!is_admin() && ($pagenow !== 'wp-login.php')) {
                 /* need to return a 404 when post_type `post` objects are found */
                 add_action(
                     'posts_results',

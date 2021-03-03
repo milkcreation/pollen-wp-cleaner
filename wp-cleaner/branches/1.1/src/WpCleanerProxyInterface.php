@@ -9,9 +9,9 @@ interface WpCleanerProxyInterface
     /**
      * Instance du gestionnaire de nettoyage Wordpress.
      *
-     * @return WpCleanerInterface|null
+     * @return WpCleanerInterface
      */
-    public function wpCleaner(): ?WpCleanerInterface;
+    public function wpCleaner(): WpCleanerInterface;
 
     /**
      * Définition du gestionnaire de nettoyage Wordpress.
