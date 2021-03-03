@@ -1,0 +1,46 @@
+{
+  "name": "pollen-solutions/wp-cleaner",
+  "description": "Wordpress Cleaner Component",
+  "homepage": "https://www.presstify.com/pollen-solutions/wp-cleaner/",
+  "keywords": [
+    "presstify",
+    "plugins",
+    "wordpress",
+    "cleaner"
+  ],
+  "time": "2020-03-03",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jordy Manner",
+      "email": "jordy@presstify.com",
+      "role": "Developper"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://composer.presstify.com/pollen-solutions/"
+    }
+  ],
+  "require": {
+    "composer/installers": "~1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pollen\\WpCleaner\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pollen\\WpCleaner\\Test\\": "tests"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  }
+}
