@@ -1,0 +1,46 @@
+{
+  "name": "pollen-solutions/wp-config",
+  "description": "Wordpress Configurator Component",
+  "homepage": "https://www.presstify.com/pollen-solutions/wp-config",
+  "keywords": [
+    "presstify",
+    "plugins",
+    "wordpress",
+    "configuration"
+  ],
+  "time": "2020-01-04",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jordy Manner",
+      "email": "jordy@presstify.com",
+      "role": "Developper"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://composer.presstify.com/pollen-solutions/"
+    }
+  ],
+  "require": {
+    "composer/installers": "~1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pollen\\WpConfig\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pollen\\WpConfig\\Test\\": "tests"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  }
+}
