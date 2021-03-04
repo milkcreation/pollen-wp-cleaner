@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner\Drivers;
 
+use Pollen\WpCleaner\WpCleanerProxy;
 use WP_Admin_Bar;
 
 class AdminBarDriver extends AbstractWpCleanerDriver
 {
+    use WpCleanerProxy;
     /**
      * @inheritDoc
      */

@@ -7,11 +7,14 @@ namespace Pollen\WpCleaner;
 use Psr\Container\ContainerInterface as Container;
 use RuntimeException;
 
+/**
+ * @see \Pollen\WpCleaner\WpCleanerProxyInterface
+ */
 trait WpCleanerProxy
 {
     /**
      * Instance du gestionnaire de nettoyage Wordpress.
-     * @var WpCleanerInterface|null
+     * @var WpCleanerInterface
      */
     private $wpCleaner;
 
@@ -44,9 +47,9 @@ trait WpCleanerProxy
      *
      * @param WpCleanerInterface $wpCleaner
      *
-     * @return static
+     * @return WpCleanerProxyInterface|static
      */
-    public function setWpCleaner(WpCleanerInterface $wpCleaner): WpCleanerProxy
+    public function setWpCleaner(WpCleanerInterface $wpCleaner): WpCleanerProxyInterface
     {
         $this->wpCleaner = $wpCleaner;
 
