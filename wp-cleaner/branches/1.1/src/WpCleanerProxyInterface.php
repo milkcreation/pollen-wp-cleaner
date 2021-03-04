@@ -18,7 +18,7 @@ interface WpCleanerProxyInterface
      *
      * @param WpCleanerInterface $wpCleaner
      *
-     * @return WpCleanerProxy
+     * @return WpCleanerProxyInterface|static
      */
-    public function setWpCleaner(WpCleanerInterface $wpCleaner): WpCleanerProxy;
+    public function setWpCleaner(WpCleanerInterface $wpCleaner): WpCleanerProxyInterface;
 }
