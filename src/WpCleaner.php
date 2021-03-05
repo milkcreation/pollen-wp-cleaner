@@ -127,7 +127,7 @@ class WpCleaner implements WpCleanerInterface
             $this->resourcesBaseDir = Filesystem::normalizePath(realpath(dirname(__DIR__) . '/resources/'));
 
             if (!file_exists($this->resourcesBaseDir)) {
-                throw new RuntimeException('Partial ressources directory unreachable');
+                throw new RuntimeException('WpCleaner ressources directory unreachable');
             }
         }
 

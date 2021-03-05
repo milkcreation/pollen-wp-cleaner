@@ -22,8 +22,6 @@ use Pollen\WpCleaner\Drivers\WidgetDriver;
 class WpCleanerServiceProvider extends BaseServiceProvider
 {
     /**
-     * Liste des noms de qualification des services fournis.
-     * @internal requis. Tous les noms de qualification de services à traiter doivent être renseignés.
      * @var string[]
      */
     protected $provides = [
