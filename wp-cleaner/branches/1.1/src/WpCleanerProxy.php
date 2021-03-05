@@ -47,9 +47,9 @@ trait WpCleanerProxy
      *
      * @param WpCleanerInterface $wpCleaner
      *
-     * @return WpCleanerProxyInterface|static
+     * @return static
      */
-    public function setWpCleaner(WpCleanerInterface $wpCleaner): WpCleanerProxyInterface
+    public function setWpCleaner(WpCleanerInterface $wpCleaner): self
     {
         $this->wpCleaner = $wpCleaner;
 
