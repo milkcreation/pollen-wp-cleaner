@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pollen\WpCleaner\Drivers;
-
-use Pollen\WpCleaner\WpCleanerInterface;
-use Pollen\WpCleaner\WpCleanerProxy;
+namespace Pollen\WpCleaner;
 
 abstract class AbstractWpCleanerDriver implements WpCleanerDriverInterface
 {

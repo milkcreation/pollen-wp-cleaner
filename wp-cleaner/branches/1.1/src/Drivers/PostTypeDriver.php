@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner\Drivers;
 
+use Pollen\WpCleaner\AbstractWpCleanerDriver;
 use Pollen\Support\Proxy\HttpRequestProxy;
 use WP_Post_Type;
 

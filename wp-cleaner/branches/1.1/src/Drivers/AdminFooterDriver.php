@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner\Drivers;
 
+use Pollen\WpCleaner\AbstractWpCleanerDriver;
+
 class AdminFooterDriver extends AbstractWpCleanerDriver
 {
     /**
