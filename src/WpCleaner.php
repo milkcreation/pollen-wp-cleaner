@@ -106,10 +106,12 @@ class WpCleaner implements WpCleanerInterface
         if (!$this->isBooted()) {
             //events()->trigger('wp-config.booting', [$this]);
 
-            foreach ($this->drivers as $driver) {
-                $driver = $this->containerHas($driver) ? $this->containerGet($driver) : new $driver($this);
-                $driver->boot();
-            }
+            add_action('after_setup_theme', function () {
+                foreach ($this->drivers as $driver) {
+                    $driver = $this->containerHas($driver) ? $this->containerGet($driver) : new $driver($this);
+                    $driver->boot();
+                }
+            });
 
             $this->setBooted();
 

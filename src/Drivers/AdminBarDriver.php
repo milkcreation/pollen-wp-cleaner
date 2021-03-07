@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner\Drivers;
 
+use Pollen\WpCleaner\AbstractWpCleanerDriver;
 use WP_Admin_Bar;
 
 class AdminBarDriver extends AbstractWpCleanerDriver
