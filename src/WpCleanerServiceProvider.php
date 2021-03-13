@@ -16,6 +16,8 @@ use Pollen\WpCleaner\Drivers\EmojiDriver;
 use Pollen\WpCleaner\Drivers\MetaTagDriver;
 use Pollen\WpCleaner\Drivers\PostTypeDriver;
 use Pollen\WpCleaner\Drivers\RestApiDriver;
+use Pollen\WpCleaner\Drivers\RewriteDriver;
+use Pollen\WpCleaner\Drivers\SitemapDriver;
 use Pollen\WpCleaner\Drivers\TaxonomyDriver;
 use Pollen\WpCleaner\Drivers\WidgetDriver;
 
@@ -25,7 +27,22 @@ class WpCleanerServiceProvider extends BaseServiceProvider
      * @var string[]
      */
     protected $provides = [
-        WpCleanerInterface::class
+        WpCleanerInterface::class,
+        AdminBarDriver::class,
+        AdminFooterDriver::class,
+        AdminMenuDriver::class,
+        CommentsDriver::class,
+        DashboardDriver::class,
+        DNSPrefetchDriver::class,
+        EmbedDriver::class,
+        EmojiDriver::class,
+        MetaTagDriver::class,
+        PostTypeDriver::class,
+        RestApiDriver::class,
+        RewriteDriver::class,
+        SitemapDriver::class,
+        TaxonomyDriver::class,
+        WidgetDriver::class,
     ];
 
     /**
@@ -36,6 +53,8 @@ class WpCleanerServiceProvider extends BaseServiceProvider
         $this->getContainer()->share(WpCleanerInterface::class, function() {
             return new WpCleaner([], $this->getContainer());
         });
+
+        $this->registerDrivers();
     }
 
     /**
@@ -87,6 +106,14 @@ class WpCleanerServiceProvider extends BaseServiceProvider
 
         $this->getContainer()->share(RestApiDriver::class, function() {
             return new RestApiDriver($this->getContainer()->get(WpCleanerInterface::class));
+        });
+
+        $this->getContainer()->share(RewriteDriver::class, function() {
+            return new RewriteDriver($this->getContainer()->get(WpCleanerInterface::class));
+        });
+
+        $this->getContainer()->share(SitemapDriver::class, function() {
+            return new SitemapDriver($this->getContainer()->get(WpCleanerInterface::class));
         });
 
         $this->getContainer()->share(TaxonomyDriver::class, function() {
