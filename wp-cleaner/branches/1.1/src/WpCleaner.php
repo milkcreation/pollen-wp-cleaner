@@ -16,6 +16,8 @@ use Pollen\WpCleaner\Drivers\EmojiDriver;
 use Pollen\WpCleaner\Drivers\MetaTagDriver;
 use Pollen\WpCleaner\Drivers\PostTypeDriver;
 use Pollen\WpCleaner\Drivers\RestApiDriver;
+use Pollen\WpCleaner\Drivers\RewriteDriver;
+use Pollen\WpCleaner\Drivers\SitemapDriver;
 use Pollen\WpCleaner\Drivers\TaxonomyDriver;
 use Pollen\WpCleaner\Drivers\WidgetDriver;
 use Psr\Container\ContainerInterface as Container;
@@ -58,6 +60,8 @@ class WpCleaner implements WpCleanerInterface
         MetaTagDriver::class,
         PostTypeDriver::class,
         RestApiDriver::class,
+        RewriteDriver::class,
+        SitemapDriver::class,
         TaxonomyDriver::class,
         WidgetDriver::class,
     ];

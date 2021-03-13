@@ -129,6 +129,34 @@ return [
     'remove_menu'                             => [],
 
     /**
+     * Suppression des régles de réécriture.
+     * ex. ['post', 'date', 'root', 'comments', 'search', 'author', 'page', ...]
+     * @var string[]
+     */
+    'remove_rewrite_rules'              => [],
+
+    /**
+     * Suppression de fournisseurs de sitemap.
+     * ex. ['posts', 'taxonomies', 'users', ...]
+     * @var string[]
+     */
+    'remove_sitemap_providers'                => [],
+
+    /**
+     * Suppression de types de posts distribués par le sitemap.
+     * ex. ['post', 'page', '{{ custom_post_type }}', ...]
+     * @var string[]
+     */
+    'remove_sitemap_post_types'               => [],
+
+    /**
+     * Suppression de taxonomies distribuées par le sitemap.
+     * ex. ['category', 'tag', '{{ custom_taxonomy }}']
+     * @var string[]
+     */
+    'remove_sitemap_taxonomies'               => [],
+
+    /**
      * Suppression de support des fonctionnalités du type de post article (post).
      * ex. ['title', 'editor', 'author', 'thumbnail', 'excerpt', 'trackbacks', 'custom-fields', 'comments', 'revisions',
      * 'post-formats']
