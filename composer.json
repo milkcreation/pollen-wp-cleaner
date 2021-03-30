@@ -8,7 +8,7 @@
     "wordpress",
     "cleaner"
   ],
-  "time": "2020-03-13",
+  "time": "2020-03-30",
   "license": "MIT",
   "authors": [
     {
@@ -39,7 +39,7 @@
     }
   },
   "suggest": {
-    "pollen-solutions/container" : "Pollen Container Component - PSR-11 ready Dependencies Injection Container"
+    "pollen-solutions/container" : "Pollen Container Component - PSR-11 ready Dependencies Injection Container."
   },
   "minimum-stability": "dev",
   "prefer-stable": true,

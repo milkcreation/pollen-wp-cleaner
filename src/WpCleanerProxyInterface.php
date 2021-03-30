@@ -18,7 +18,7 @@ interface WpCleanerProxyInterface
      *
      * @param WpCleanerInterface $wpCleaner
      *
-     * @return static
+     * @return void
      */
-    public function setWpCleaner(WpCleanerInterface $wpCleaner): self;
+    public function setWpCleaner(WpCleanerInterface $wpCleaner): void;
 }
