@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner;
 
-use Psr\Container\ContainerInterface as Container;
+use Pollen\Support\StaticProxy;
 use RuntimeException;
 
 /**
@@ -26,16 +26,14 @@ trait WpCleanerProxy
     public function wpCleaner(): WpCleanerInterface
     {
         if ($this->wpCleaner === null) {
-            $container = method_exists($this, 'getContainer') ? $this->getContainer() : null;
-
-            if ($container instanceof Container && $container->has(WpCleanerInterface::class)) {
-                $this->wpCleaner = $container->get(WpCleanerInterface::class);
-            } else {
-                try {
-                    $this->wpCleaner = WpCleaner::getInstance();
-                } catch(RuntimeException $e) {
-                    $this->wpCleaner = new WpCleaner();
-                }
+            try {
+                $this->wpCleaner = WpCleaner::getInstance();
+            } catch (RuntimeException $e) {
+                $this->wpCleaner = StaticProxy::getProxyInstance(
+                    WpCleanerInterface::class,
+                    WpCleaner::class,
+                    method_exists($this, 'getContainer') ? $this->getContainer() : null
+                );
             }
         }
 
