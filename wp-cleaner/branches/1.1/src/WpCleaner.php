@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner;
 
+use Pollen\Support\Concerns\ResourcesAwareTrait;
 use Pollen\Support\Filesystem;
 use Pollen\WpCleaner\Drivers\AdminBarDriver;
 use Pollen\WpCleaner\Drivers\AdminFooterDriver;
@@ -25,12 +26,12 @@ use Pollen\Support\Concerns\BootableTrait;
 use Pollen\Support\Concerns\ConfigBagAwareTrait;
 use Pollen\Support\Exception\ManagerRuntimeException;
 use Pollen\Support\Proxy\ContainerProxy;
-use RuntimeException;
 
 class WpCleaner implements WpCleanerInterface
 {
     use BootableTrait;
     use ConfigBagAwareTrait;
+    use ResourcesAwareTrait;
     use ContainerProxy;
 
     /**
@@ -38,12 +39,6 @@ class WpCleaner implements WpCleanerInterface
      * @var static|null
      */
     private static $instance;
-
-    /**
-     * Chemin vers le répertoire des ressources.
-     * @var string|null
-     */
-    protected $resourcesBaseDir;
 
     /**
      * Liste des pilotes.
@@ -80,6 +75,8 @@ class WpCleaner implements WpCleanerInterface
         if ($container !== null) {
             $this->setContainer($container);
         }
+
+        $this->setResourcesBaseDir(dirname(__DIR__) . '/resources');
 
         if ($this->config('boot_enabled', true)) {
             $this->boot();
@@ -122,32 +119,6 @@ class WpCleaner implements WpCleanerInterface
 
             //events()->trigger('wp-config.booted', [$this]);
         }
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function resources(?string $path = null): string
-    {
-        if ($this->resourcesBaseDir === null) {
-            $this->resourcesBaseDir = Filesystem::normalizePath(realpath(dirname(__DIR__) . '/resources/'));
-
-            if (!file_exists($this->resourcesBaseDir)) {
-                throw new RuntimeException('WpCleaner ressources directory unreachable');
-            }
-        }
-
-        return is_null($path) ? $this->resourcesBaseDir : $this->resourcesBaseDir . Filesystem::normalizePath($path);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setResourcesBaseDir(string $resourceBaseDir): WpCleanerInterface
-    {
-        $this->resourcesBaseDir = Filesystem::normalizePath($resourceBaseDir);
-
         return $this;
     }
 }
