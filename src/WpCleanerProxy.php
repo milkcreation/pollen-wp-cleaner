@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner;
 
-use Pollen\Support\StaticProxy;
+use Pollen\Support\ProxyResolver;
 use RuntimeException;
 
 /**
@@ -29,7 +29,7 @@ trait WpCleanerProxy
             try {
                 $this->wpCleaner = WpCleaner::getInstance();
             } catch (RuntimeException $e) {
-                $this->wpCleaner = StaticProxy::getProxyInstance(
+                $this->wpCleaner = ProxyResolver::getInstance(
                     WpCleanerInterface::class,
                     WpCleaner::class,
                     method_exists($this, 'getContainer') ? $this->getContainer() : null
