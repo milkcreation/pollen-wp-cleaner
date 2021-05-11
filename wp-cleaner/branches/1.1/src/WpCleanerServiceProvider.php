@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pollen\WpCleaner;
 
-use Pollen\Container\BaseServiceProvider;
+use Pollen\Container\BootableServiceProvider;
 use Pollen\WpCleaner\Drivers\AdminBarDriver;
 use Pollen\WpCleaner\Drivers\AdminFooterDriver;
 use Pollen\WpCleaner\Drivers\AdminMenuDriver;
@@ -21,7 +21,7 @@ use Pollen\WpCleaner\Drivers\SitemapDriver;
 use Pollen\WpCleaner\Drivers\TaxonomyDriver;
 use Pollen\WpCleaner\Drivers\WidgetDriver;
 
-class WpCleanerServiceProvider extends BaseServiceProvider
+class WpCleanerServiceProvider extends BootableServiceProvider
 {
     /**
      * @var string[]
